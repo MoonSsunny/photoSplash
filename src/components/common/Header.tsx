@@ -13,6 +13,7 @@ const Logo = styled.div`
   justify-content: center;
   align-items: center;
   width: 80px;
+  font-family: 'BM Hanna';
   font-size: 25px;
   cursor: pointer;
   img {
@@ -46,7 +47,7 @@ function Header({ onSearchClick, onGoBookmark }: Props) {
     <HeaderContainer>
       <Logo onClick={onSearchClick}>
         <img src="logo.png" alt="로고" />
-        <span>willog</span>
+        <span>PHOTO</span>
       </Logo>
       <Bookmark onClick={onGoBookmark}>
         <span>북마크</span>

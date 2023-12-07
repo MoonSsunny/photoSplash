@@ -11,3 +11,48 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Nanum Barun Gothic';
+  font-style: normal;
+  font-weight: 100;
+  src: url('styles/fonts/NanumBarunGothicUltraLight.woff2') format('woff2'),
+    url('styles/fonts/NanumBarunGothicUltraLight.woff') format('woff'),
+    url('styles/fonts/NanumBarunGothicUltraLight.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nanum Barun Gothic';
+  font-style: normal;
+  font-weight: normal;
+  src: url('styles/fonts/NanumBarunGothicLight.woff2') format('woff2'),
+    url('styles/fonts/NanumBarunGothicLight.woff') format('woff'),
+    url('styles/fonts/NanumBarunGothicLight.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nanum Barun Gothic';
+  font-style: normal;
+  font-weight: 500;
+  src: url('styles/fonts/NanumBarunGothic.woff2') format('woff2'),
+    url('styles/fonts/NanumBarunGothic.woff') format('woff'),
+    url('styles/fonts/NanumBarunGothic.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nanum Barun Gothic';
+  font-style: normal;
+  font-weight: bold;
+  src: url('styles/fonts/NanumBarunGothicBold.woff2') format('woff2'),
+    url('styles/fonts/NanumBarunGothicBold.woff') format('woff'),
+    url('styles/fonts/NanumBarunGothicBold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'BM Hanna';
+  font-style: normal;
+  font-weight: normal;
+  src: url('styles/fonts/BMHANNA_11yrs.woff2') format('woff2'),
+    url('styles/fonts/BMHANNA_11yrs.woff') format('woff'),
+    url('styles/fonts/BMHANNA_11yrs.otf') format('truetype');
+}
