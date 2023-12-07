@@ -3,19 +3,15 @@ import Header from 'components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import colors from 'utils/colors';
 import Input from 'components/common/Input';
+import PhotoList from 'components/PhotoList';
+import Container from 'components/common/Container';
+import { useEffect, useState } from 'react';
+import { SearchItem } from 'models/search';
 
 const Main = styled.div`
   height: 500px;
-  background-color: #000;
+  background: url('background.jpg') center/cover no-repeat;
   color: ${colors.white};
-`;
-
-const Inner = styled.div`
-  max-width: 1300px;
-  margin: 0 auto;
-  height: 100%;
-  text-align: center;
-  position: relative;
 `;
 
 const SearchInner = styled.div`
@@ -47,11 +43,54 @@ const SearchInner = styled.div`
 function Home() {
   const navigate = useNavigate();
 
+  const [searchList, setSearchList] = useState<SearchItem[]>([]);
+
+  useEffect(() => {
+    setSearchList([
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 1,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 2,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 3,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 4,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 5,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 6,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 7,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 8,
+      },
+      {
+        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+        id: 9,
+      },
+    ]);
+  }, []);
+
   return (
     <>
       <Header onGoBookmark={() => navigate(`/bookmark`, { replace: true })} />
       <Main>
-        <Inner>
+        <Container>
           <SearchInner>
             <h2 className="title">M.PHOTO</h2>
             <div className="subTitle">
@@ -60,8 +99,11 @@ function Home() {
             </div>
             <Input placeholder="고해상도 이미지 검색" />
           </SearchInner>
-        </Inner>
+        </Container>
       </Main>
+      <Container>
+        <PhotoList list={searchList}></PhotoList>
+      </Container>
     </>
   );
 }

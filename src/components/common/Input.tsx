@@ -2,6 +2,10 @@ import { ChangeEvent, HTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
+interface InputProps extends HTMLAttributes<HTMLDivElement> {
+  placeholder?: string;
+}
+
 const SearchBox = styled.div`
   position: relative;
   .searchIcon {
@@ -20,10 +24,6 @@ const SearchInput = styled.input`
   padding: 20px 55px 20px 20px;
   border-radius: 12px;
 `;
-
-interface InputProps extends HTMLAttributes<HTMLDivElement> {
-  placeholder?: string;
-}
 
 function Input({ placeholder }: InputProps) {
   const [query, setQuery] = useState<string>('');

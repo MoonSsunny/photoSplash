@@ -5,7 +5,6 @@ export default createGlobalStyle`
     ${reset}
     *, *::before, *::after{
         box-sizing: border-box;
-        line-height: 0;
     }
     html{
         font-size: 1vw;

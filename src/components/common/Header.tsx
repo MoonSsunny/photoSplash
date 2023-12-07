@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
+interface Props {
+  onSearchClick?: () => void;
+  onGoBookmark?: () => void;
+}
+
 const HeaderContainer = styled.header`
   padding: 0 50px;
   display: flex;
@@ -25,6 +30,7 @@ const Bookmark = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  line-height: 16px;
   gap: 3px;
   width: 90px;
   height: 30px;
@@ -33,14 +39,10 @@ const Bookmark = styled.button`
   border-radius: 4px;
   color: ${colors.gray01};
   img {
+    display: inline-block;
     width: 15px;
   }
 `;
-
-interface Props {
-  onSearchClick?: () => void;
-  onGoBookmark?: () => void;
-}
 
 function Header({ onSearchClick, onGoBookmark }: Props) {
   return (
