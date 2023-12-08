@@ -11,7 +11,6 @@ import { getSearchImage } from 'api/searchApi';
 import NotSearchList from 'components/NotSearchList';
 import Loading from 'components/common/Loading';
 import Pagination from 'components/common/Pagination';
-import { useSearchParams } from 'react-router-dom';
 
 const Main = styled.div`
   height: 500px;
@@ -56,22 +55,6 @@ function Home() {
   const [resultTotal, setResultTotal] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
 
-  useEffect(() => {
-    // const count = 28;
-    // const getImage = async () => {
-    //   try {
-    //     const randomImg = (await getRandomImage(count)).map((item) => ({
-    //       url: item.urls.thumb,
-    //       id: item.id,
-    //     }));
-    //     setSearchList(randomImg);
-    //   } catch (error) {
-    //     console.error('error');
-    //   }
-    // };
-    // getImage();
-  }, []);
-
   const handleChangeValue = (value: string) => {
     // setQuery(value);
   };
@@ -79,6 +62,9 @@ function Home() {
   const handleSearchList = useCallback(
     async (value: string) => {
       setQuery(value);
+      value
+        ? navigate(`/search?query=${value}&page=${page}&limit=${perPage}`)
+        : navigate('/');
       console.log('value', value, 'page', page, 'per', perPage);
       try {
         setIsLoading(true);
@@ -102,17 +88,14 @@ function Home() {
     [page, perPage]
   );
 
-  const prePage = () => {
-    setPage((prev: number) => (prev === 1 ? 1 : prev - 1));
+  const settingPage = (page: number) => {
+    console.log('page');
+    setPage(page);
   };
 
   useEffect(() => {
     handleSearchList(query);
   }, [page]);
-
-  const nextPage = () => {
-    setPage((prev: number) => (prev === totalPage ? prev : prev + 1));
-  };
 
   return (
     <>
@@ -141,9 +124,9 @@ function Home() {
             <PhotoList list={searchList}></PhotoList>
             <Pagination
               total={resultTotal}
-              nextPage={nextPage}
-              prePage={prePage}
+              settingPage={settingPage}
               page={page}
+              totalPage={totalPage}
             />
           </>
         ) : (
