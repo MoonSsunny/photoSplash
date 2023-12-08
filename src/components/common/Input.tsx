@@ -1,9 +1,16 @@
-import { ChangeEvent, HTMLAttributes, useState } from 'react';
+import {
+  ChangeEvent,
+  HTMLAttributes,
+  MouseEventHandler,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
 interface InputProps extends HTMLAttributes<HTMLDivElement> {
   placeholder?: string;
+  update?: (value: string) => void;
+  onSearch: (value: string) => void;
 }
 
 const SearchBox = styled.div`
@@ -14,6 +21,7 @@ const SearchBox = styled.div`
     top: 50%;
     right: 20px;
     transform: translateY(-50%);
+    cursor: pointer;
   }
 `;
 
@@ -25,12 +33,17 @@ const SearchInput = styled.input`
   border-radius: 12px;
 `;
 
-function Input({ placeholder }: InputProps) {
+function Input({ placeholder, update, onSearch }: InputProps) {
   const [query, setQuery] = useState<string>('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target.value;
     setQuery(target);
+    update?.(target);
+  };
+
+  const handleSearch: MouseEventHandler<HTMLImageElement> = (event) => {
+    onSearch?.(query);
   };
 
   return (
@@ -41,7 +54,12 @@ function Input({ placeholder }: InputProps) {
         onChange={handleInputChange}
         placeholder={placeholder}
       />
-      <img src="search.svg" alt="search" className="searchIcon" />
+      <img
+        src="search.svg"
+        alt="search"
+        className="searchIcon"
+        onClick={handleSearch}
+      />
     </SearchBox>
   );
 }

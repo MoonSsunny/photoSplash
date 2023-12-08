@@ -2,11 +2,16 @@ import styled from 'styled-components';
 import Header from 'components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import colors from 'utils/colors';
-import Input from 'components/common/Input';
+import StyleInput from 'components/common/Input';
 import PhotoList from 'components/PhotoList';
 import Container from 'components/common/Container';
-import { useEffect, useState } from 'react';
-import { SearchItem } from 'models/search';
+import { useCallback, useEffect, useState } from 'react';
+import { SearchItem, Result } from 'models/search';
+import { getSearchImage } from 'api/searchApi';
+import NotSearchList from 'components/NotSearchList';
+import Loading from 'components/common/Loading';
+import Pagination from 'components/common/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const Main = styled.div`
   height: 500px;
@@ -44,47 +49,70 @@ function Home() {
   const navigate = useNavigate();
 
   const [searchList, setSearchList] = useState<SearchItem[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(20);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [query, setQuery] = useState<string>('');
+  const [resultTotal, setResultTotal] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
 
   useEffect(() => {
-    setSearchList([
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 1,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 2,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 3,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 4,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 5,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 6,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 7,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 8,
-      },
-      {
-        path: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-        id: 9,
-      },
-    ]);
+    // const count = 28;
+    // const getImage = async () => {
+    //   try {
+    //     const randomImg = (await getRandomImage(count)).map((item) => ({
+    //       url: item.urls.thumb,
+    //       id: item.id,
+    //     }));
+    //     setSearchList(randomImg);
+    //   } catch (error) {
+    //     console.error('error');
+    //   }
+    // };
+    // getImage();
   }, []);
+
+  const handleChangeValue = (value: string) => {
+    // setQuery(value);
+  };
+
+  const handleSearchList = useCallback(
+    async (value: string) => {
+      setQuery(value);
+      console.log('value', value, 'page', page, 'per', perPage);
+      try {
+        setIsLoading(true);
+        const searchImage: Result = await getSearchImage(value, page, perPage);
+        console.log('result', searchImage);
+        setResultTotal(searchImage.total);
+        setTotalPage(searchImage.total_pages);
+        const list = (
+          searchImage.results as Array<{ id: string; urls: { thumb: string } }>
+        ).map((item) => ({
+          id: item.id,
+          url: item.urls.thumb,
+        }));
+        console.log(list);
+        setSearchList(list);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('error');
+      }
+    },
+    [page, perPage]
+  );
+
+  const prePage = () => {
+    setPage((prev: number) => (prev === 1 ? 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    handleSearchList(query);
+  }, [page]);
+
+  const nextPage = () => {
+    setPage((prev: number) => (prev === totalPage ? prev : prev + 1));
+  };
 
   return (
     <>
@@ -97,12 +125,30 @@ function Home() {
               <p>인터넷 시각 자료의 출처입니다.</p>
               <p>모든 지역에 있는 크리에이터들의 지원을 받습니다.</p>
             </div>
-            <Input placeholder="고해상도 이미지 검색" />
+            <StyleInput
+              placeholder="고해상도 이미지 검색"
+              update={handleChangeValue}
+              onSearch={handleSearchList}
+            />
           </SearchInner>
         </Container>
       </Main>
       <Container>
-        <PhotoList list={searchList}></PhotoList>
+        {isLoading ? (
+          <Loading />
+        ) : searchList.length > 0 ? (
+          <>
+            <PhotoList list={searchList}></PhotoList>
+            <Pagination
+              total={resultTotal}
+              nextPage={nextPage}
+              prePage={prePage}
+              page={page}
+            />
+          </>
+        ) : (
+          <NotSearchList />
+        )}
       </Container>
     </>
   );

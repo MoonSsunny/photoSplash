@@ -20,7 +20,7 @@ function PhotoList({ list }: { list: SearchItem[] }) {
     <StyledUl>
       {list.map((item) => (
         <StyledLi key={item.id}>
-          <PhotoThumbnail src={item.path} size={200} />
+          <PhotoThumbnail src={item.url} size={200} />
         </StyledLi>
       ))}
     </StyledUl>

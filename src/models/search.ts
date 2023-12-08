@@ -1,4 +1,10 @@
 export interface SearchItem {
-  path: string;
-  id: number;
+  id: string;
+  url: string;
+}
+
+export interface Result {
+  total: number;
+  total_pages: number;
+  results: Object[];
 }
