@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
@@ -47,37 +48,64 @@ const Button = styled.button<ButtonProps>`
   }
 `;
 
+const Text = styled.p`
+  font-size: 15px;
+  font-weight: 700;
+  color: ${colors.gray03};
+  text-align: center;
+  margin-top: 30px;
+`;
+
 function Pagination({ total, page, totalPage, settingPage }: Props) {
-  const buttonNumber = Array.from({ length: 10 });
+  const [offset, setOffset] = useState<number>(0);
+  const [pageArray, setPageArray] = useState<number[]>([]);
 
   const moveToPage = (page: number) => {
     settingPage(page);
   };
 
+  useEffect(() => {
+    const newOffset = Math.floor((page - 1) / pageArray.length);
+    setOffset(newOffset);
+  }, [page, pageArray.length]);
+
+  useEffect(() => {
+    const buttonNumber = Array.from(
+      { length: 10 },
+      (_, index) => 10 * offset + index + 1
+    );
+    setPageArray(buttonNumber);
+  }, [offset]);
+
   return (
-    <StyledPagination>
-      <PaginationButton
-        onClick={() => moveToPage(page === 1 ? page : page - 1)}
-        disabled={page === 1}
-      >
-        이전
-      </PaginationButton>
-      {buttonNumber.map((item, index) => (
-        <Button
-          key={index}
-          isBold={page === index + 1}
-          onClick={() => moveToPage(index + 1)}
+    <>
+      <StyledPagination>
+        <PaginationButton
+          onClick={() => moveToPage(page === 1 ? page : page - 1)}
+          disabled={page === 1}
         >
-          {index + 1}
-        </Button>
-      ))}
-      <PaginationButton
-        onClick={() => moveToPage(page === totalPage ? page : page + 1)}
-        disabled={page === totalPage}
-      >
-        다음
-      </PaginationButton>
-    </StyledPagination>
+          이전
+        </PaginationButton>
+        {pageArray.map((item, index) => (
+          <Button
+            key={index}
+            isBold={page === item}
+            onClick={() => moveToPage(item)}
+          >
+            {item}
+          </Button>
+        ))}
+        <PaginationButton
+          onClick={() => moveToPage(page === totalPage ? page : page + 1)}
+          disabled={page === totalPage}
+        >
+          다음
+        </PaginationButton>
+      </StyledPagination>
+      <Text>
+        {page} of {totalPage}
+      </Text>
+    </>
   );
 }
 
