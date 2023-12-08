@@ -59,42 +59,36 @@ function Home() {
     // setQuery(value);
   };
 
-  const handleSearchList = useCallback(
-    async (value: string) => {
-      setQuery(value);
-      value
-        ? navigate(`/search?query=${value}&page=${page}&limit=${perPage}`)
-        : navigate('/');
-      console.log('value', value, 'page', page, 'per', perPage);
-      try {
-        setIsLoading(true);
-        const searchImage: Result = await getSearchImage(value, page, perPage);
-        console.log('result', searchImage);
-        setResultTotal(searchImage.total);
-        setTotalPage(searchImage.total_pages);
-        const list = (
-          searchImage.results as Array<{ id: string; urls: { thumb: string } }>
-        ).map((item) => ({
-          id: item.id,
-          url: item.urls.thumb,
-        }));
-        console.log(list);
-        setSearchList(list);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('error');
-      }
-    },
-    [page, perPage]
-  );
-
+  const handleSearchList = async (value: string, type?: string) => {
+    setQuery(value);
+    value
+      ? navigate(`/search?query=${value}&page=${page}&limit=${perPage}`)
+      : navigate('/');
+    if (value !== query) setPage(1);
+    if (type !== 'pageButton') setPage(1);
+    try {
+      setIsLoading(true);
+      const searchImage: Result = await getSearchImage(value, page, perPage);
+      setResultTotal(searchImage.total);
+      setTotalPage(searchImage.total_pages);
+      const list = (
+        searchImage.results as Array<{ id: string; urls: { thumb: string } }>
+      ).map((item) => ({
+        id: item.id,
+        url: item.urls.thumb,
+      }));
+      setSearchList(list);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('error');
+    }
+  };
   const settingPage = (page: number) => {
-    console.log('page');
     setPage(page);
   };
 
   useEffect(() => {
-    handleSearchList(query);
+    handleSearchList(query, 'pageButton');
   }, [page]);
 
   return (
