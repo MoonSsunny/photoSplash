@@ -42,7 +42,7 @@ export interface InputProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export interface PaginationProps {
-  total: number;
+  total?: number;
   page: number;
   totalPage: number;
   settingPage: (page: number) => void;

@@ -133,11 +133,10 @@ function Home() {
       <Container>
         {isLoading ? (
           <Loading />
-        ) : searchList.length > 0 ? (
+        ) : searchList?.length > 0 ? (
           <>
             <PhotoList list={searchList}></PhotoList>
             <Pagination
-              total={resultTotal}
               settingPage={settingPage}
               page={page}
               totalPage={totalPage}

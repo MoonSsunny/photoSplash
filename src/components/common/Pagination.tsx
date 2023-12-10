@@ -56,7 +56,7 @@ const Text = styled.p`
   margin-top: 30px;
 `;
 
-function Pagination({ total, page, totalPage, settingPage }: PaginationProps) {
+function Pagination({ page, totalPage, settingPage }: PaginationProps) {
   const [offset, setOffset] = useState<number>(0);
   const [pageArray, setPageArray] = useState<number[]>([]);
 
@@ -75,7 +75,7 @@ function Pagination({ total, page, totalPage, settingPage }: PaginationProps) {
       (_, index) => 10 * offset + index + 1
     );
     setPageArray(buttonNumber);
-  }, [offset]);
+  }, [offset, totalPage]);
 
   return (
     <>
