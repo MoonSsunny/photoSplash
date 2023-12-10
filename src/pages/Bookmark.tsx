@@ -1,13 +1,17 @@
 import Header from 'components/common/Header';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { SearchItem } from 'models/photo';
-import { useEffect, useState } from 'react';
-import PhotoList from 'components/PhotoList';
 import Container from 'components/common/Container';
+import { useState } from 'react';
+import Loading from 'components/common/Loading';
+import PhotoList from 'components/PhotoList';
+import NotSearchList from 'components/NotSearchList';
+import { usePhoto } from 'contexts/PhotoContext';
+import Modal from 'components/common/Modal';
 
 const Bookmark = () => {
-  const [searchList, setSearchList] = useState<SearchItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { bookmarkList, isModal } = usePhoto();
 
   const navigate = useNavigate();
 
@@ -15,8 +19,17 @@ const Bookmark = () => {
     <>
       <Header onSearchClick={() => navigate(`/`, { replace: true })} />
       <Container>
-        <p>흐흐흐</p>
+        {isLoading ? (
+          <Loading />
+        ) : bookmarkList?.length > 0 ? (
+          <>
+            <PhotoList photoListItem={bookmarkList} />
+          </>
+        ) : (
+          <NotSearchList text={'북마크 되어있는것이 없습니다'} />
+        )}
       </Container>
+      {isModal && <Modal />}
     </>
   );
 };

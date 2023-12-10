@@ -21,12 +21,12 @@ const InfoSection = styled.div`
   }
 `;
 
-const NotSearchList = () => {
+const NotSearchList = ({ text }: { text: string }) => {
   return (
     <InfoSection>
       <img src="Error.svg" alt="error" className="icon" />
       <p className="text">
-        검색결과가 없습니다. <br /> 검색을 통해 이미지를 찾아보세요
+        {text} <br /> 검색을 통해 이미지를 찾아보세요
       </p>
     </InfoSection>
   );

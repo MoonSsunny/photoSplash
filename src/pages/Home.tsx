@@ -92,7 +92,6 @@ const Home = () => {
         update: item.created_at,
         isBookmark: false,
       }));
-      console.log(searchImage);
       updatePhotoList(list);
       setIsLoading(false);
     } catch (error) {
@@ -130,7 +129,7 @@ const Home = () => {
           <Loading />
         ) : photoList?.length > 0 ? (
           <>
-            <PhotoList></PhotoList>
+            <PhotoList photoListItem={photoList} />
             <Pagination
               settingPage={settingPage}
               page={page}
@@ -138,7 +137,7 @@ const Home = () => {
             />
           </>
         ) : (
-          <NotSearchList />
+          <NotSearchList text={'검색결과가 없습니다 '} />
         )}
       </Container>
       {isModal && <Modal />}

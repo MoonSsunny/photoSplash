@@ -1,8 +1,8 @@
 import { usePhoto } from 'contexts/PhotoContext';
 import styled from 'styled-components';
-import { ThumbnailProps } from 'models/photo';
+import { SearchItem, ThumbnailProps } from 'models/photo';
 import { getImageData } from 'api/searchApi';
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 
 const Thumbnail = styled.div<ThumbnailProps>`
   display: inline-block;
@@ -26,13 +26,23 @@ const Thumbnail = styled.div<ThumbnailProps>`
 `;
 
 const PhotoThumbnail = ({ size, src, photo }: ThumbnailProps) => {
-  const { updateIsModal, updatePhotoItem } = usePhoto();
-  const [isBookmark, setIsBookmark] = useState<boolean>(false);
+  const {
+    updateIsModal,
+    updatePhotoItem,
+    checkBookmark,
+    updateBookmarkList,
+    bookmarkList,
+  } = usePhoto();
 
   const handleBookmark: MouseEventHandler<HTMLImageElement> = (event) => {
     event.stopPropagation();
-    setIsBookmark(!isBookmark);
+    checkBookmark(photo.id);
+    updateBookmarkList(photo);
   };
+
+  useEffect(() => {
+    localStorage.setItem('bookmark', JSON.stringify(bookmarkList));
+  }, [bookmarkList]);
 
   const handleThumbnailClick = async () => {
     if (photo) {
@@ -46,7 +56,12 @@ const PhotoThumbnail = ({ size, src, photo }: ThumbnailProps) => {
   };
 
   return (
-    <Thumbnail size={size} src={src} onClick={handleThumbnailClick}>
+    <Thumbnail
+      size={size}
+      src={src}
+      photo={photo}
+      onClick={handleThumbnailClick}
+    >
       <img
         src={photo?.isBookmark ? 'heart_fill.svg' : 'heart_line.svg'}
         alt="bookmark"

@@ -84,11 +84,17 @@ const Chips = styled.ul`
 `;
 
 const Modal = () => {
-  const { updateIsModal, clickPhoto, updatePhotoItem } = usePhoto();
+  const {
+    updateIsModal,
+    clickPhoto,
+    checkBookmark,
+    updateBookmarkList,
+    updatePhotoItem,
+    bookmarkList,
+  } = usePhoto();
 
   const closeModal = () => {
     updateIsModal(false);
-    console.log('click', clickPhoto);
   };
 
   useEffect(() => {}, [clickPhoto]);
@@ -109,7 +115,13 @@ const Modal = () => {
   const handleBookmark: MouseEventHandler<HTMLImageElement> = (event) => {
     event.stopPropagation();
     updatePhotoItem({ ...clickPhoto, isBookmark: !clickPhoto.isBookmark });
+    checkBookmark(clickPhoto.id);
+    updateBookmarkList(clickPhoto);
   };
+
+  useEffect(() => {
+    localStorage.setItem('bookmark', JSON.stringify(bookmarkList));
+  }, [bookmarkList]);
 
   return (
     <ModalContainer>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import PhotoThumbnail from './PhotoThumbnail';
-import { usePhoto } from 'contexts/PhotoContext';
+import { PhotoListProps } from 'models/photo';
 
 const StyledUl = styled.ul`
   display: grid;
@@ -15,12 +15,10 @@ const StyledLi = styled.li`
   width: 200px;
 `;
 
-const PhotoList = () => {
-  const { photoList } = usePhoto();
-
+const PhotoList = ({ photoListItem }: PhotoListProps) => {
   return (
     <StyledUl>
-      {photoList.map((item) => (
+      {photoListItem.map((item) => (
         <StyledLi key={item.id}>
           <PhotoThumbnail photo={item} size={200} src={item.thumbs} />
         </StyledLi>

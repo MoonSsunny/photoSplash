@@ -14,6 +14,10 @@ export interface SearchItem {
   thumbs: string;
 }
 
+export interface PhotoListProps {
+  photoListItem: SearchItem[];
+}
+
 export interface Result {
   total: number;
   total_pages: number;
@@ -24,9 +28,12 @@ export interface PhotoContextProps {
   isModal: boolean;
   clickPhoto: SearchItem;
   photoList: SearchItem[];
+  bookmarkList: SearchItem[];
   updateIsModal: (value: boolean) => void;
   updatePhotoItem: (value: SearchItem) => void;
   updatePhotoList: (value: SearchItem[]) => void;
+  updateBookmarkList: (value: SearchItem) => void;
+  checkBookmark: (value: string) => void;
 }
 
 export interface ChildrenProps {
@@ -53,6 +60,6 @@ export interface PaginationProps {
 
 export interface ThumbnailProps {
   size: number;
-  photo?: SearchItem;
+  photo: SearchItem;
   src: string;
 }

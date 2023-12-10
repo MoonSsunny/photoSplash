@@ -8,7 +8,6 @@ export const getRandomImage = async (): Promise<any[]> => {
   const { data } = await axios.get(`https://api.unsplash.com/photos/random`, {
     params,
   });
-  console.log(data);
   return data;
 };
 
@@ -38,6 +37,5 @@ export const getImageData = async (id: string): Promise<any> => {
     `https://api.unsplash.com/photos/${id}/statistics`,
     { params }
   );
-  console.log(data);
   return data;
 };

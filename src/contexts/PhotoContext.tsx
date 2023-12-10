@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, ReactNode, FC } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  FC,
+  useEffect,
+} from 'react';
 import { PhotoContextProps, SearchItem } from 'models/photo';
 
 export const PhotoContext = createContext<PhotoContextProps | undefined>(
@@ -8,6 +15,7 @@ export const PhotoContext = createContext<PhotoContextProps | undefined>(
 export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isModal, setIsModal] = useState(false);
   const [photoList, setPhotoList] = useState<SearchItem[]>([]);
+  const [bookmarkList, setBookmarkList] = useState<SearchItem[]>([]);
   const [clickPhoto, setClickPhoto] = useState<SearchItem>({
     id: '',
     url: '',
@@ -22,6 +30,15 @@ export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     isBookmark: false,
   });
 
+  useEffect(() => {
+    const localBookmarkList = localStorage.getItem('bookmark');
+
+    if (localBookmarkList) {
+      const parsedBookmarkList: SearchItem[] = JSON.parse(localBookmarkList);
+      setBookmarkList(parsedBookmarkList);
+    }
+  }, []);
+
   const updateIsModal = (value: boolean) => {
     setIsModal(value);
   };
@@ -31,7 +48,64 @@ export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const updatePhotoList = (value: SearchItem[]) => {
-    setPhotoList(value);
+    const storedBookmark = localStorage.getItem('bookmark');
+    if (storedBookmark) {
+      const bookmarkArray: SearchItem[] = JSON.parse(storedBookmark);
+
+      const setBookmark = value.map((item) => {
+        const matching = bookmarkArray.find(
+          (product) => product.id === item.id
+        );
+        return matching ? matching : item;
+      });
+      setPhotoList(setBookmark);
+    } else {
+      setPhotoList(value);
+    }
+  };
+
+  const updateBookmarkList = (value: SearchItem) => {
+    const toggleBookmark = {
+      ...value,
+      isBookmark: !value.isBookmark,
+    };
+
+    const isItemExists = bookmarkList.some(
+      (item) => item.id === toggleBookmark.id
+    );
+
+    if (isItemExists) {
+      setBookmarkList((prevList) =>
+        prevList.filter((item) => item.id !== toggleBookmark.id)
+      );
+      const updatedPhotoList = photoList.map((photo) => {
+        if (photo.id === toggleBookmark.id) {
+          return toggleBookmark;
+        } else {
+          return photo;
+        }
+      });
+
+      setPhotoList([...updatedPhotoList]);
+    } else {
+      setBookmarkList([...bookmarkList, toggleBookmark]);
+    }
+  };
+
+  const checkBookmark = (value: string) => {
+    const changeBookmark = photoList.map((item) => {
+      if (item.id === value) {
+        return {
+          ...item,
+          isBookmark: !item.isBookmark,
+        };
+      } else {
+        return {
+          ...item,
+        };
+      }
+    });
+    updatePhotoList([...changeBookmark]);
   };
 
   const contextValue: PhotoContextProps = {
@@ -41,6 +115,9 @@ export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     updateIsModal,
     updatePhotoItem,
     updatePhotoList,
+    checkBookmark,
+    bookmarkList,
+    updateBookmarkList,
   };
   return (
     <PhotoContext.Provider value={contextValue}>
