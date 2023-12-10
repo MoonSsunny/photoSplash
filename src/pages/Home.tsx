@@ -58,10 +58,6 @@ function Home() {
   const [totalPage, setTotalPage] = useState<number>(0);
   const { isModal } = usePhoto();
 
-  const handleChangeValue = (value: string) => {
-    // setQuery(value);
-  };
-
   const handleSearchList = async (value: string, type?: string) => {
     setQuery(value);
     value
@@ -95,6 +91,7 @@ function Home() {
         width: item.width,
         height: item.height,
         update: item.created_at,
+        isBookmark: false,
       }));
       console.log(searchImage);
       setSearchList(list);
@@ -124,7 +121,6 @@ function Home() {
             </div>
             <StyleInput
               placeholder="고해상도 이미지 검색"
-              update={handleChangeValue}
               onSearch={handleSearchList}
             />
           </SearchInner>
