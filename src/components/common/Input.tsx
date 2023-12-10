@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEventHandler, useState } from 'react';
+import { ChangeEvent, MouseEventHandler, useState, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 import { InputProps } from 'models/photo';
@@ -23,17 +23,22 @@ const SearchInput = styled.input`
   border-radius: 12px;
 `;
 
-function Input({ placeholder, update, onSearch }: InputProps) {
+function Input({ placeholder, onSearch }: InputProps) {
   const [query, setQuery] = useState<string>('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target.value;
     setQuery(target);
-    update?.(target);
   };
 
   const handleSearch: MouseEventHandler<HTMLImageElement> = (event) => {
     onSearch?.(query);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onSearch?.(query);
+    }
   };
 
   return (
@@ -42,6 +47,7 @@ function Input({ placeholder, update, onSearch }: InputProps) {
         type="text"
         value={query}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
       />
       <img
