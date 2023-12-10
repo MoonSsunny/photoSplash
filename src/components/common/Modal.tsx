@@ -88,7 +88,7 @@ function Modal() {
     <ModalContainer>
       <ModalText>
         <CloseButton onClick={closeModal}>x</CloseButton>
-        <p className="name">Emily</p>
+        <p className="name">{clickPhoto.user}</p>
         <img
           src={clickPhoto.url}
           alt={clickPhoto.alt}
