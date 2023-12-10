@@ -2,6 +2,7 @@ import { usePhoto } from 'contexts/PhotoContext';
 import styled from 'styled-components';
 import { ThumbnailProps } from 'models/photo';
 import { getImageData } from 'api/searchApi';
+import { MouseEventHandler, useState } from 'react';
 
 const Thumbnail = styled.div<ThumbnailProps>`
   display: inline-block;
@@ -24,17 +25,22 @@ const Thumbnail = styled.div<ThumbnailProps>`
   }
 `;
 
-function PhotoThumbnail({ size, src, photo }: ThumbnailProps) {
+const PhotoThumbnail = ({ size, src, photo }: ThumbnailProps) => {
   const { updateIsModal, updatePhotoItem } = usePhoto();
+  const [isBookmark, setIsBookmark] = useState<boolean>(false);
 
-  const handleBookmark = () => {
-    console.log('dkdk');
+  const handleBookmark: MouseEventHandler<HTMLImageElement> = (event) => {
+    event.stopPropagation();
+    setIsBookmark(!isBookmark);
   };
 
   const handleThumbnailClick = async () => {
     if (photo) {
       const imageData = await getImageData(photo.id);
-      updatePhotoItem({ ...photo, download: imageData.downloads.total });
+      updatePhotoItem({
+        ...photo,
+        download: imageData.downloads.total,
+      });
       updateIsModal(true);
     }
   };
@@ -42,13 +48,13 @@ function PhotoThumbnail({ size, src, photo }: ThumbnailProps) {
   return (
     <Thumbnail size={size} src={src} onClick={handleThumbnailClick}>
       <img
-        src="heart_line.svg"
+        src={photo?.isBookmark ? 'heart_fill.svg' : 'heart_line.svg'}
         alt="bookmark"
         className="bookmark"
         onClick={handleBookmark}
       />
     </Thumbnail>
   );
-}
+};
 
 export default PhotoThumbnail;

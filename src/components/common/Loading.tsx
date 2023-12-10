@@ -12,12 +12,12 @@ const InfoSection = styled.div`
   }
 `;
 
-function Loading() {
+const Loading = () => {
   return (
     <InfoSection>
       <img src="loading2.gif" alt="error" className="icon" />
     </InfoSection>
   );
-}
+};
 
 export default Loading;

@@ -23,7 +23,7 @@ const SearchInput = styled.input`
   border-radius: 12px;
 `;
 
-function Input({ placeholder, onSearch }: InputProps) {
+const Input = ({ placeholder, onSearch }: InputProps) => {
   const [query, setQuery] = useState<string>('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +58,6 @@ function Input({ placeholder, onSearch }: InputProps) {
       />
     </SearchBox>
   );
-}
+};
 
 export default Input;

@@ -40,7 +40,7 @@ const Bookmark = styled.button`
   }
 `;
 
-function Header({ onSearchClick, onGoBookmark }: HeaderProps) {
+const Header = ({ onSearchClick, onGoBookmark }: HeaderProps) => {
   return (
     <HeaderContainer>
       <Logo onClick={onSearchClick}>
@@ -53,6 +53,6 @@ function Header({ onSearchClick, onGoBookmark }: HeaderProps) {
       </Bookmark>
     </HeaderContainer>
   );
-}
+};
 
 export default Header;

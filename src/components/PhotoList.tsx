@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import PhotoThumbnail from './PhotoThumbnail';
-import { SearchItem } from 'models/photo';
-
-interface PhotoListProps {
-  list: SearchItem[];
-}
+import { usePhoto } from 'contexts/PhotoContext';
 
 const StyledUl = styled.ul`
   display: grid;
@@ -19,16 +15,18 @@ const StyledLi = styled.li`
   width: 200px;
 `;
 
-function PhotoList({ list }: PhotoListProps) {
+const PhotoList = () => {
+  const { photoList } = usePhoto();
+
   return (
     <StyledUl>
-      {list.map((item) => (
+      {photoList.map((item) => (
         <StyledLi key={item.id}>
           <PhotoThumbnail photo={item} size={200} src={item.thumbs} />
         </StyledLi>
       ))}
     </StyledUl>
   );
-}
+};
 
 export default PhotoList;

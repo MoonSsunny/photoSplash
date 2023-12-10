@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import PhotoList from 'components/PhotoList';
 import Container from 'components/common/Container';
 
-function Bookmark() {
+const Bookmark = () => {
   const [searchList, setSearchList] = useState<SearchItem[]>([]);
 
   const navigate = useNavigate();
@@ -19,6 +19,6 @@ function Bookmark() {
       </Container>
     </>
   );
-}
+};
 
 export default Bookmark;

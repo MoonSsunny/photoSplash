@@ -7,6 +7,7 @@ export const PhotoContext = createContext<PhotoContextProps | undefined>(
 
 export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isModal, setIsModal] = useState(false);
+  const [photoList, setPhotoList] = useState<SearchItem[]>([]);
   const [clickPhoto, setClickPhoto] = useState<SearchItem>({
     id: '',
     url: '',
@@ -18,6 +19,7 @@ export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     update: '',
     download: 0,
     thumbs: '',
+    isBookmark: false,
   });
 
   const updateIsModal = (value: boolean) => {
@@ -28,11 +30,17 @@ export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setClickPhoto(value);
   };
 
+  const updatePhotoList = (value: SearchItem[]) => {
+    setPhotoList(value);
+  };
+
   const contextValue: PhotoContextProps = {
     isModal,
     clickPhoto,
+    photoList,
     updateIsModal,
     updatePhotoItem,
+    updatePhotoList,
   };
   return (
     <PhotoContext.Provider value={contextValue}>

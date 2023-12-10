@@ -21,7 +21,7 @@ const InfoSection = styled.div`
   }
 `;
 
-function NotSearchList() {
+const NotSearchList = () => {
   return (
     <InfoSection>
       <img src="Error.svg" alt="error" className="icon" />
@@ -30,6 +30,6 @@ function NotSearchList() {
       </p>
     </InfoSection>
   );
-}
+};
 
 export default NotSearchList;

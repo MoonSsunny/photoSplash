@@ -10,6 +10,7 @@ export interface SearchItem {
   height: number;
   update: string;
   download?: number;
+  isBookmark?: boolean;
   thumbs: string;
 }
 
@@ -22,8 +23,10 @@ export interface Result {
 export interface PhotoContextProps {
   isModal: boolean;
   clickPhoto: SearchItem;
+  photoList: SearchItem[];
   updateIsModal: (value: boolean) => void;
   updatePhotoItem: (value: SearchItem) => void;
+  updatePhotoList: (value: SearchItem[]) => void;
 }
 
 export interface ChildrenProps {

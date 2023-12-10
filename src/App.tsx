@@ -3,7 +3,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import RoutesComponent from './pages/Routes';
 import { PhotoProvider } from 'contexts/PhotoContext';
 
-function App() {
+const App = () => {
   return (
     <PhotoProvider>
       <GlobalStyle />
@@ -12,6 +12,6 @@ function App() {
       </Router>
     </PhotoProvider>
   );
-}
+};
 
 export default App;

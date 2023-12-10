@@ -56,7 +56,7 @@ const Text = styled.p`
   margin-top: 30px;
 `;
 
-function Pagination({ page, totalPage, settingPage }: PaginationProps) {
+const Pagination = ({ page, totalPage, settingPage }: PaginationProps) => {
   const [offset, setOffset] = useState<number>(0);
   const [pageArray, setPageArray] = useState<number[]>([]);
 
@@ -109,6 +109,6 @@ function Pagination({ page, totalPage, settingPage }: PaginationProps) {
       </Text>
     </>
   );
-}
+};
 
 export default Pagination;

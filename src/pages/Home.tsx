@@ -46,17 +46,16 @@ const SearchInner = styled.div`
   }
 `;
 
-function Home() {
+const Home = () => {
   const navigate = useNavigate();
 
-  const [searchList, setSearchList] = useState<SearchItem[]>([]);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(20);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [resultTotal, setResultTotal] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
-  const { isModal } = usePhoto();
+  const { isModal, updatePhotoList, photoList } = usePhoto();
 
   const handleSearchList = async (value: string, type?: string) => {
     setQuery(value);
@@ -73,7 +72,7 @@ function Home() {
       const list = (
         searchImage.results as Array<{
           id: string;
-          urls: { full: string; thumb: string };
+          urls: { small: string; thumb: string };
           alt_description: string;
           tags: object[];
           user: { name: string };
@@ -83,7 +82,7 @@ function Home() {
         }>
       ).map((item) => ({
         id: item.id,
-        url: item.urls.full,
+        url: item.urls.small,
         thumbs: item.urls.thumb,
         alt: item.alt_description,
         tag: item.tags,
@@ -94,7 +93,7 @@ function Home() {
         isBookmark: false,
       }));
       console.log(searchImage);
-      setSearchList(list);
+      updatePhotoList(list);
       setIsLoading(false);
     } catch (error) {
       console.error('error');
@@ -129,9 +128,9 @@ function Home() {
       <Container>
         {isLoading ? (
           <Loading />
-        ) : searchList?.length > 0 ? (
+        ) : photoList?.length > 0 ? (
           <>
-            <PhotoList list={searchList}></PhotoList>
+            <PhotoList></PhotoList>
             <Pagination
               settingPage={settingPage}
               page={page}
@@ -145,6 +144,6 @@ function Home() {
       {isModal && <Modal />}
     </>
   );
-}
+};
 
 export default Home;

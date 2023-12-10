@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { ChildrenProps } from 'models/photo';
 
@@ -10,8 +9,8 @@ const ContentSection = styled.section`
   position: relative;
 `;
 
-function Container({ children }: ChildrenProps) {
+const Container = ({ children }: ChildrenProps) => {
   return <ContentSection>{children}</ContentSection>;
-}
+};
 
 export default Container;

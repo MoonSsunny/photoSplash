@@ -1,5 +1,5 @@
 import { usePhoto } from 'contexts/PhotoContext';
-import { useCallback, useEffect } from 'react';
+import { MouseEventHandler, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
@@ -24,6 +24,11 @@ const ModalText = styled.div`
   background-color: ${colors.white};
   border-radius: 4px;
   padding: 20px;
+  .bookmark {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+  }
   .name {
     font-size: 25px;
     font-weight: 600;
@@ -78,8 +83,8 @@ const Chips = styled.ul`
   }
 `;
 
-function Modal() {
-  const { updateIsModal, clickPhoto } = usePhoto();
+const Modal = () => {
+  const { updateIsModal, clickPhoto, updatePhotoItem } = usePhoto();
 
   const closeModal = () => {
     updateIsModal(false);
@@ -101,12 +106,21 @@ function Modal() {
     return daysDifference;
   }, [clickPhoto]);
 
-  console.log(calcDays);
+  const handleBookmark: MouseEventHandler<HTMLImageElement> = (event) => {
+    event.stopPropagation();
+    updatePhotoItem({ ...clickPhoto, isBookmark: !clickPhoto.isBookmark });
+  };
 
   return (
     <ModalContainer>
       <ModalText>
         <CloseButton onClick={closeModal}>x</CloseButton>
+        <img
+          src={clickPhoto.isBookmark ? 'heart_fill.svg' : 'like_line.svg'}
+          alt="bookmark"
+          className="bookmark"
+          onClick={handleBookmark}
+        />
         <p className="name">{clickPhoto.user}</p>
         <img
           src={clickPhoto.url}
@@ -140,6 +154,6 @@ function Modal() {
       </ModalText>
     </ModalContainer>
   );
-}
+};
 
 export default Modal;
