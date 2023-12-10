@@ -9,6 +9,8 @@ export interface SearchItem {
   width: number;
   height: number;
   update: string;
+  download?: number;
+  thumbs: string;
 }
 
 export interface Result {

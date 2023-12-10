@@ -1,4 +1,5 @@
 import { usePhoto } from 'contexts/PhotoContext';
+import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
@@ -84,6 +85,26 @@ function Modal() {
     updateIsModal(false);
     console.log('click', clickPhoto);
   };
+
+  useEffect(() => {}, [clickPhoto]);
+
+  const calcDays = useCallback(() => {
+    const currentDate: Date = new Date();
+    const getDays: Date = new Date(clickPhoto.update);
+
+    const timeDifference: number = currentDate.getTime() - getDays.getTime();
+
+    const daysDifference: number = Math.ceil(
+      timeDifference / (1000 * 60 * 60 * 24)
+    );
+
+    console.log(getDays);
+
+    return daysDifference;
+  }, [clickPhoto]);
+
+  console.log(calcDays);
+
   return (
     <ModalContainer>
       <ModalText>
@@ -104,11 +125,11 @@ function Modal() {
             </dl>
             <dl>
               <dt>업로드</dt>
-              <dd>6일전 게시물</dd>
+              <dd>{calcDays()}일전 게시물</dd>
             </dl>
             <dl>
               <dt>다운로드</dt>
-              <dd>1,345</dd>
+              <dd>{clickPhoto.download}</dd>
             </dl>
           </Detail>
           <Chips>

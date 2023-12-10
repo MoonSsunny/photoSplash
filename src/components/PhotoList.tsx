@@ -24,7 +24,7 @@ function PhotoList({ list }: PhotoListProps) {
     <StyledUl>
       {list.map((item) => (
         <StyledLi key={item.id}>
-          <PhotoThumbnail photo={item} size={200} src={item.url} />
+          <PhotoThumbnail photo={item} size={200} src={item.thumbs} />
         </StyledLi>
       ))}
     </StyledUl>

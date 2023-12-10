@@ -29,3 +29,15 @@ export const getSearchImage = async (
   });
   return data;
 };
+
+export const getImageData = async (id: string): Promise<any> => {
+  const params = {
+    client_id: process.env.REACT_APP_KEY,
+  };
+  const { data } = await axios.get(
+    `https://api.unsplash.com/photos/${id}/statistics`,
+    { params }
+  );
+  console.log(data);
+  return data;
+};

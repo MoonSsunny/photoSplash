@@ -16,6 +16,8 @@ export const PhotoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     width: 0,
     height: 0,
     update: '',
+    download: 0,
+    thumbs: '',
   });
 
   const updateIsModal = (value: boolean) => {

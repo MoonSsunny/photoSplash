@@ -77,23 +77,24 @@ function Home() {
       const list = (
         searchImage.results as Array<{
           id: string;
-          urls: { full: string };
+          urls: { full: string; thumb: string };
           alt_description: string;
           tags: object[];
           user: { name: string };
           width: number;
           height: number;
-          updated_at: string;
+          created_at: string;
         }>
       ).map((item) => ({
         id: item.id,
         url: item.urls.full,
+        thumbs: item.urls.thumb,
         alt: item.alt_description,
         tag: item.tags,
         user: item.user.name,
         width: item.width,
         height: item.height,
-        update: item.updated_at,
+        update: item.created_at,
       }));
       console.log(searchImage);
       setSearchList(list);

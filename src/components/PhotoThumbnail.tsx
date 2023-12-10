@@ -1,6 +1,7 @@
 import { usePhoto } from 'contexts/PhotoContext';
 import styled from 'styled-components';
 import { ThumbnailProps } from 'models/photo';
+import { getImageData } from 'api/searchApi';
 
 const Thumbnail = styled.div<ThumbnailProps>`
   display: inline-block;
@@ -30,11 +31,11 @@ function PhotoThumbnail({ size, src, photo }: ThumbnailProps) {
     console.log('dkdk');
   };
 
-  const handleThumbnailClick = () => {
-    console.log(photo);
-    updateIsModal(true);
+  const handleThumbnailClick = async () => {
     if (photo) {
-      updatePhotoItem(photo);
+      const imageData = await getImageData(photo.id);
+      updatePhotoItem({ ...photo, download: imageData.downloads.total });
+      updateIsModal(true);
     }
   };
 
