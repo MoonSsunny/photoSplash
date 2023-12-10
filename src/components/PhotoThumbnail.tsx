@@ -1,9 +1,7 @@
+import { usePhoto } from 'contexts/PhotoContext';
 import styled from 'styled-components';
+import { ThumbnailProps } from 'models/photo';
 
-interface ThumbnailProps {
-  size: number;
-  src: string;
-}
 const Thumbnail = styled.div<ThumbnailProps>`
   display: inline-block;
   position: relative;
@@ -13,6 +11,7 @@ const Thumbnail = styled.div<ThumbnailProps>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
 
   .bookmark {
     display: inline-block;
@@ -24,13 +23,23 @@ const Thumbnail = styled.div<ThumbnailProps>`
   }
 `;
 
-const handleBookmark = () => {
-  console.log('dkdk');
-};
+function PhotoThumbnail({ size, src, photo }: ThumbnailProps) {
+  const { updateIsModal, updatePhotoItem } = usePhoto();
 
-function PhotoThumbnail({ size, src }: ThumbnailProps) {
+  const handleBookmark = () => {
+    console.log('dkdk');
+  };
+
+  const handleThumbnailClick = () => {
+    console.log(photo);
+    updateIsModal(true);
+    if (photo) {
+      updatePhotoItem(photo);
+    }
+  };
+
   return (
-    <Thumbnail size={size} src={src}>
+    <Thumbnail size={size} src={src} onClick={handleThumbnailClick}>
       <img
         src="heart_line.svg"
         alt="bookmark"

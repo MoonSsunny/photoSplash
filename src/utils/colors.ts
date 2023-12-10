@@ -6,8 +6,9 @@ const colors = {
   gray02: '#f2f2f7',
   gray03: '#3a3a3c',
   gray04: '#EBEBEB',
-  gray05: '#BCCED7',
+  gray05: '#7b7a7a',
   white: white,
+  black: '#000000',
 };
 
 export default colors;

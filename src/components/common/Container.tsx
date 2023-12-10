@@ -1,19 +1,16 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-
-interface Props {
-  children: ReactNode;
-}
+import { ChildrenProps } from 'models/photo';
 
 const ContentSection = styled.section`
-  max-width: 900px;
+  max-width: 800px;
   height: 100%;
   padding: 50px 0;
   margin: 0 auto;
   position: relative;
 `;
 
-function Container({ children }: Props) {
+function Container({ children }: ChildrenProps) {
   return <ContentSection>{children}</ContentSection>;
 }
 

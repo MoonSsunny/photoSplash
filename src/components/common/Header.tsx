@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import colors from 'utils/colors';
-
-interface Props {
-  onSearchClick?: () => void;
-  onGoBookmark?: () => void;
-}
+import { HeaderProps } from 'models/photo';
 
 const HeaderContainer = styled.header`
   padding: 0 50px;
@@ -44,7 +40,7 @@ const Bookmark = styled.button`
   }
 `;
 
-function Header({ onSearchClick, onGoBookmark }: Props) {
+function Header({ onSearchClick, onGoBookmark }: HeaderProps) {
   return (
     <HeaderContainer>
       <Logo onClick={onSearchClick}>

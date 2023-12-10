@@ -5,12 +5,14 @@ import colors from 'utils/colors';
 import StyleInput from 'components/common/Input';
 import PhotoList from 'components/PhotoList';
 import Container from 'components/common/Container';
-import { useCallback, useEffect, useState } from 'react';
-import { SearchItem, Result } from 'models/search';
+import { useEffect, useState } from 'react';
+import { SearchItem, Result } from 'models/photo';
 import { getSearchImage } from 'api/searchApi';
 import NotSearchList from 'components/NotSearchList';
 import Loading from 'components/common/Loading';
 import Pagination from 'components/common/Pagination';
+import Modal from 'components/common/Modal';
+import { usePhoto } from 'contexts/PhotoContext';
 
 const Main = styled.div`
   height: 500px;
@@ -50,10 +52,11 @@ function Home() {
   const [searchList, setSearchList] = useState<SearchItem[]>([]);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(20);
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [resultTotal, setResultTotal] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
+  const { isModal } = usePhoto();
 
   const handleChangeValue = (value: string) => {
     // setQuery(value);
@@ -72,11 +75,27 @@ function Home() {
       setResultTotal(searchImage.total);
       setTotalPage(searchImage.total_pages);
       const list = (
-        searchImage.results as Array<{ id: string; urls: { thumb: string } }>
+        searchImage.results as Array<{
+          id: string;
+          urls: { full: string };
+          alt_description: string;
+          tags: object[];
+          user: { name: string };
+          width: number;
+          height: number;
+          updated_at: string;
+        }>
       ).map((item) => ({
         id: item.id,
-        url: item.urls.thumb,
+        url: item.urls.full,
+        alt: item.alt_description,
+        tag: item.tags,
+        user: item.user.name,
+        width: item.width,
+        height: item.height,
+        update: item.updated_at,
       }));
+      console.log(searchImage);
       setSearchList(list);
       setIsLoading(false);
     } catch (error) {
@@ -127,6 +146,7 @@ function Home() {
           <NotSearchList />
         )}
       </Container>
+      {isModal && <Modal />}
     </>
   );
 }

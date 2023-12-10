@@ -1,17 +1,7 @@
-import {
-  ChangeEvent,
-  HTMLAttributes,
-  MouseEventHandler,
-  useState,
-} from 'react';
+import { ChangeEvent, MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
-
-interface InputProps extends HTMLAttributes<HTMLDivElement> {
-  placeholder?: string;
-  update?: (value: string) => void;
-  onSearch: (value: string) => void;
-}
+import { InputProps } from 'models/photo';
 
 const SearchBox = styled.div`
   position: relative;

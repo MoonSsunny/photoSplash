@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Result } from 'models/search';
+import { Result } from 'models/photo';
 
 export const getRandomImage = async (): Promise<any[]> => {
   const params = {
