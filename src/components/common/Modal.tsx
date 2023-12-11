@@ -153,7 +153,7 @@ const Modal = () => {
             </dl>
             <dl>
               <dt>다운로드</dt>
-              <dd>{clickPhoto.download}</dd>
+              <dd>{clickPhoto.download?.toLocaleString()}</dd>
             </dl>
           </Detail>
           <Chips>
