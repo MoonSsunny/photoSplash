@@ -8,7 +8,7 @@ import Modal from 'components/common/Modal';
 
 const Bookmark = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { bookmarkList, isModal } = usePhoto();
+  const { bookmarkList } = usePhoto();
 
   return (
     <>
@@ -23,7 +23,6 @@ const Bookmark = () => {
           <NotSearchList text={'북마크 되어있는것이 없습니다'} />
         )}
       </Container>
-      {isModal && <Modal />}
     </>
   );
 };

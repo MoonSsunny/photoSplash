@@ -10,7 +10,6 @@ import { getSearchImage } from 'api/searchApi';
 import NotSearchList from 'components/NotSearchList';
 import Loading from 'components/common/Loading';
 import Pagination from 'components/common/Pagination';
-import Modal from 'components/common/Modal';
 import { usePhoto } from 'contexts/PhotoContext';
 
 const Main = styled.div`
@@ -52,7 +51,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [totalPage, setTotalPage] = useState<number>(0);
-  const { isModal, updatePhotoList, photoList } = usePhoto();
+  const { updatePhotoList, photoList } = usePhoto();
 
   const handleSearchList = async (value: string, type?: string) => {
     const perPage = 20;
@@ -136,7 +135,6 @@ const Home = () => {
           <NotSearchList text={'검색결과가 없습니다 '} />
         )}
       </Container>
-      {isModal && <Modal />}
     </>
   );
 };
