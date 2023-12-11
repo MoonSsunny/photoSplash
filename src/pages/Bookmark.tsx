@@ -1,21 +1,15 @@
 import Container from 'components/common/Container';
-import { useState } from 'react';
-import Loading from 'components/common/Loading';
 import PhotoList from 'components/PhotoList';
 import NotSearchList from 'components/NotSearchList';
 import { usePhoto } from 'contexts/PhotoContext';
-import Modal from 'components/common/Modal';
 
 const Bookmark = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { bookmarkList } = usePhoto();
 
   return (
     <>
       <Container>
-        {isLoading ? (
-          <Loading />
-        ) : bookmarkList?.length > 0 ? (
+        {bookmarkList?.length > 0 ? (
           <>
             <PhotoList photoListItem={bookmarkList} />
           </>
