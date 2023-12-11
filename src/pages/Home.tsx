@@ -89,9 +89,11 @@ const Home = () => {
         isBookmark: false,
       }));
       updatePhotoList(list);
-      setIsLoading(false);
     } catch (error) {
       console.error('error');
+      alert('에러가 발생하였습니다. 잠시후 다시 시도해 주세요');
+    } finally {
+      setIsLoading(false);
     }
   };
   const settingPage = (page: number) => {
