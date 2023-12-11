@@ -46,12 +46,16 @@ const PhotoThumbnail = ({ size, src, photo }: ThumbnailProps) => {
 
   const handleThumbnailClick = async () => {
     if (photo) {
-      const imageData = await getImageData(photo.id);
-      updatePhotoItem({
-        ...photo,
-        download: imageData.downloads.total,
-      });
-      updateIsModal(true);
+      const { data: imageData, status } = await getImageData(photo.id);
+      if (status === 200) {
+        updatePhotoItem({
+          ...photo,
+          download: imageData.downloads.total,
+        });
+        updateIsModal(true);
+      } else {
+        alert('에러가 발생하였습니다. 잠시후 다시 시도해주세요. ');
+      }
     }
   };
 

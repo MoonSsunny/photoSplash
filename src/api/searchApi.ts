@@ -1,16 +1,6 @@
 import axios from 'axios';
 import { Result } from 'models/photo';
 
-export const getRandomImage = async (): Promise<any[]> => {
-  const params = {
-    client_id: process.env.REACT_APP_KEY,
-  };
-  const { data } = await axios.get(`https://api.unsplash.com/photos/random`, {
-    params,
-  });
-  return data;
-};
-
 export const getSearchImage = async (
   query: string,
   page: number,
@@ -33,9 +23,9 @@ export const getImageData = async (id: string): Promise<any> => {
   const params = {
     client_id: process.env.REACT_APP_KEY,
   };
-  const { data } = await axios.get(
+  const response = await axios.get(
     `https://api.unsplash.com/photos/${id}/statistics`,
     { params }
   );
-  return data;
+  return response;
 };
