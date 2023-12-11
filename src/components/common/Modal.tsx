@@ -1,5 +1,5 @@
 import { usePhoto } from 'contexts/PhotoContext';
-import { MouseEventHandler, useCallback, useEffect } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
 
@@ -28,6 +28,7 @@ const ModalText = styled.div`
     position: absolute;
     top: 20px;
     right: 30px;
+    cursor: pointer;
   }
   .name {
     font-size: 25px;
@@ -50,6 +51,7 @@ const CloseButton = styled.button`
   position: absolute;
   top: 10px;
   left: 10px;
+  cursor: pointer;
 `;
 
 const Detail = styled.div`
@@ -97,8 +99,6 @@ const Modal = () => {
     updateIsModal(false);
   };
 
-  useEffect(() => {}, [clickPhoto]);
-
   const calcDays = useCallback(() => {
     const currentDate: Date = new Date();
     const getDays: Date = new Date(clickPhoto.update);
@@ -124,8 +124,8 @@ const Modal = () => {
   }, [bookmarkList]);
 
   return (
-    <ModalContainer>
-      <ModalText>
+    <ModalContainer onClick={closeModal}>
+      <ModalText onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={closeModal}>x</CloseButton>
         <img
           src={clickPhoto.isBookmark ? 'heart_fill.svg' : 'like_line.svg'}

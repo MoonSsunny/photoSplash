@@ -23,9 +23,9 @@ export const getImageData = async (id: string): Promise<any> => {
   const params = {
     client_id: process.env.REACT_APP_KEY,
   };
-  const response = await axios.get(
+  const { data } = await axios.get(
     `https://api.unsplash.com/photos/${id}/statistics`,
     { params }
   );
-  return response;
+  return data;
 };

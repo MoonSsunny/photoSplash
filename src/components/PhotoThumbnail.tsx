@@ -1,8 +1,8 @@
 import { usePhoto } from 'contexts/PhotoContext';
 import styled from 'styled-components';
-import { SearchItem, ThumbnailProps } from 'models/photo';
+import { ThumbnailProps } from 'models/photo';
 import { getImageData } from 'api/searchApi';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 
 const Thumbnail = styled.div<ThumbnailProps>`
   display: inline-block;
@@ -46,15 +46,16 @@ const PhotoThumbnail = ({ size, src, photo }: ThumbnailProps) => {
 
   const handleThumbnailClick = async () => {
     if (photo) {
-      const { data: imageData, status } = await getImageData(photo.id);
-      if (status === 200) {
+      try {
+        const imageData = await getImageData(photo.id);
         updatePhotoItem({
           ...photo,
           download: imageData.downloads.total,
         });
         updateIsModal(true);
-      } else {
-        alert('에러가 발생하였습니다. 잠시후 다시 시도해주세요. ');
+      } catch (error) {
+        console.error(error);
+        alert('에러가 발생하였습니다. 잠시후 다시 시도해주세요');
       }
     }
   };
