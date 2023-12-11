@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import Header from 'components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import colors from 'utils/colors';
 import StyleInput from 'components/common/Input';
 import PhotoList from 'components/PhotoList';
 import Container from 'components/common/Container';
 import { useEffect, useState } from 'react';
-import { SearchItem, Result } from 'models/photo';
+import { Result } from 'models/photo';
 import { getSearchImage } from 'api/searchApi';
 import NotSearchList from 'components/NotSearchList';
 import Loading from 'components/common/Loading';
@@ -50,14 +49,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [page, setPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(20);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
-  const [resultTotal, setResultTotal] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
   const { isModal, updatePhotoList, photoList } = usePhoto();
 
   const handleSearchList = async (value: string, type?: string) => {
+    const perPage = 20;
     setQuery(value);
     value
       ? navigate(`/search?query=${value}&page=${page}&limit=${perPage}`)
@@ -67,7 +65,6 @@ const Home = () => {
     try {
       setIsLoading(true);
       const searchImage: Result = await getSearchImage(value, page, perPage);
-      setResultTotal(searchImage.total);
       setTotalPage(searchImage.total_pages);
       const list = (
         searchImage.results as Array<{
@@ -108,7 +105,6 @@ const Home = () => {
 
   return (
     <>
-      <Header onGoBookmark={() => navigate(`/bookmark`, { replace: true })} />
       <Main>
         <Container>
           <SearchInner>
