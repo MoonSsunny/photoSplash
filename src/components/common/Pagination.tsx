@@ -65,8 +65,10 @@ const Pagination = ({ page, totalPage, settingPage }: PaginationProps) => {
   };
 
   useEffect(() => {
-    const newOffset = Math.floor((page - 1) / pageArray.length);
-    setOffset(newOffset);
+    if (pageArray.length !== 0) {
+      const newOffset = Math.floor((page - 1) / pageArray.length);
+      setOffset(newOffset);
+    }
   }, [page, pageArray.length]);
 
   useEffect(() => {
