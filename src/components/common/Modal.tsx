@@ -2,6 +2,7 @@ import { usePhoto } from 'contexts/PhotoContext';
 import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import colors from 'utils/colors';
+import LazyImage from './LazyImage';
 
 const ModalContainer = styled.div`
   width: 100vw;
@@ -134,11 +135,9 @@ const Modal = () => {
           onClick={handleBookmark}
         />
         <p className="name">{clickPhoto.user}</p>
-        <img
-          src={clickPhoto.url}
-          alt={clickPhoto.alt}
-          className="detailImage"
-        />
+        <div className="detailImage">
+          <LazyImage src={clickPhoto.url} alt={clickPhoto.alt} />
+        </div>
         <div className="detailText">
           <Detail>
             <dl>
